@@ -36,3 +36,29 @@
     transform: rotate(360deg);
   }
 }
+
+input {
+  border-radius: 10px;
+  border: 2px solid green;
+  padding: 7px;
+  outline: none;
+}
+input:focus {
+  border: 2px solid red;
+}
+a.menu {
+  text-decoration: none;
+}
+@media screen and (min-width: 1025px) {
+  .offcanvas {
+    width: 20%;
+  }
+}
+@media screen and (max-width: 800px) {
+  .offcanvas {
+    width: 50%;
+  }
+  input.search {
+    width: 100% !important;
+  }
+}
