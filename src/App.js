@@ -9,8 +9,13 @@ const App = () => {
   const [page, setPage] = useState(1);
   const getImages = async () => {
     const image = await axios.get(
-      `https://pixabay.com/api/?key=25458082-78b4f03a57edf4ceed37fb701&q=random&page=${page}&image_type=photo&per_page=100`
+      `https://pixabay.com/api/?key=25458082-78b4f03a57edf4ceed37fb701&q=random&page=${page}&image_type=photo&per_page=100&orientation=vertical horizontal`
     );
+    if (image.data.hits.length === 0) {
+      setPage(0);
+    }
+
+    console.log(image);
     setImages(image.data.hits);
   };
   useEffect(() => {
@@ -20,12 +25,8 @@ const App = () => {
     window.scrollTo(0, 0);
   };
   window.onscroll = () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop ===
-      document.documentElement.offSetHeight
-    ) {
-      console.log("freg");
-      console.log("dfwefew");
+    const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
+    if (scrollTop + clientHeight >= scrollHeight) {
       setPage(page + 1);
     }
   };

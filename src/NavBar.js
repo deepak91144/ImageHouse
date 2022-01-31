@@ -14,25 +14,36 @@ import {
 
 const NavBar = (props) => {
   const [show, setShow] = useState(false);
-
+  const [page, setPage] = useState(1);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleOnChange = async (e) => {
     const term = e.target.value;
 
     const searchedImages = await axios.get(
-      `https://pixabay.com/api/?key=25458082-78b4f03a57edf4ceed37fb701&q=${term}&image_type=photo&per_page=100`
+      `https://pixabay.com/api/?key=25458082-78b4f03a57edf4ceed37fb701&q=${term}&page=${page}&image_type=photo&per_page=100&orientation=vertical horizontal`
     );
-
+    if (searchedImages.data.hits.length === 0) {
+      setPage(0);
+    }
     props.images(searchedImages.data.hits);
   };
   const handleChange = async (e) => {
     const browseTerm = e.target.value;
     const searchedImages = await axios.get(
-      `https://pixabay.com/api/?key=25458082-78b4f03a57edf4ceed37fb701&q=${browseTerm}&image_type=photo&per_page=100`
+      `https://pixabay.com/api/?key=25458082-78b4f03a57edf4ceed37fb701&q=${browseTerm}&page=${page}&image_type=photo&per_page=100&orientation=vertical horizontal`
     );
+    if (searchedImages.data.hits.length === 0) {
+      setPage(0);
+    }
     props.images(searchedImages.data.hits);
     handleClose();
+  };
+  window.onscroll = () => {
+    const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
+    if (scrollTop + clientHeight >= scrollHeight) {
+      setPage(page + 1);
+    }
   };
   return (
     <>
